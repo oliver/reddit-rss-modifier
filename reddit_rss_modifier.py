@@ -40,7 +40,7 @@ def modify_rss(orig):
         except:
             pass # cannot modify element; ignore error
 
-    return ET.tostring(root)
+    return '<?xml version="1.0" encoding="UTF-8"?>' + ET.tostring(root)
 
 
 if __name__ == "__main__":
@@ -66,5 +66,5 @@ if __name__ == "__main__":
 
     new_text = modify_rss(orig_text)
 
-    print "Content-Type: application/atom+xml; charset=UTF-8\n\n"
+    print "Content-Type: application/atom+xml; charset=UTF-8\n"
     print new_text
