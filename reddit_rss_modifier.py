@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 #
 # CGI script for serving a modified Reddit RSS feed, where the linked-to article is contained in the <link> tag.
@@ -18,7 +18,7 @@ cgitb.enable()
 
 
 def cgi_die(http_status, message):
-    print "Status:%d\nContent-type: text/plain\n\n%s\n" % (http_status, message)
+    print("Status:%d\nContent-type: text/plain\n\n%s\n" % (http_status, message))
     sys.exit(1)
 
 
@@ -40,7 +40,7 @@ def modify_rss(orig):
         except:
             pass # cannot modify element; ignore error
 
-    return '<?xml version="1.0" encoding="UTF-8"?>' + ET.tostring(root)
+    return '<?xml version="1.0" encoding="UTF-8"?>' + ET.tostring(root, encoding="unicode")
 
 
 if __name__ == "__main__":
@@ -62,9 +62,9 @@ if __name__ == "__main__":
     r = requests.get(orig_url, headers=headers)
     if r.status_code != requests.codes.ok:
         cgi_die(400, "request for \"%s\" failed with code %s: %s" % (orig_url, r.status_code, r.text))
-    orig_text = r.text.encode("utf-8")
+    orig_text = r.text
 
     new_text = modify_rss(orig_text)
 
-    print "Content-Type: application/atom+xml; charset=UTF-8\n"
-    print new_text
+    print("Content-Type: application/atom+xml; charset=UTF-8\n")
+    print(new_text)
